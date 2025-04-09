@@ -13,8 +13,11 @@ export default function NGOLogin() {
   };
 
   const handleLogin = () => {
-    // Authentication logic here
     navigate("/ngo/dashboard");
+  };
+
+  const handleRegister = () => {
+    navigate("/ngo/register");
   };
 
   return (
@@ -38,12 +41,20 @@ export default function NGOLogin() {
             value={credentials.password}
             onChange={handleChange}
           />
-          <Button
-            className="w-full bg-blue-600 text-white hover:bg-blue-700"
-            onClick={handleLogin}
-          >
-            Login
-          </Button>
+          <div className="flex flex-row gap-3">
+            <Button
+              className=" w-35 bg-blue-600 text-white hover:bg-blue-700"
+              onClick={handleLogin}
+            >
+              Login
+            </Button>
+            <Button
+              className=" w-35 bg-yellow-200 text-black hover:bg-yellow-300"
+              onClick={handleRegister}
+            >
+              Register
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>

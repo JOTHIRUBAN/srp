@@ -7,6 +7,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import RefugeeRegistration from "./pages/RefugeeRegistration";
 import MonitorRefugee from "./pages/MonitorRefugee";
 import Requests from "./pages/Requests";
+import NGORegister from "./pages/NGORegister";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/refugee/login" element={<RefugeeLogin />} />
           <Route path="/ngo/login" element={<NGOLogin />} />
+          <Route path="/ngo/register" element={<NGORegister />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/refugee-register" element={<RefugeeRegistration />} />
           <Route path="/monitor-refugee" element={<MonitorRefugee />} />
