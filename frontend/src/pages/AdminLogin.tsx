@@ -3,18 +3,33 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
+
+const baseUrl = "http://localhost:5000";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({ username: "", password: "" });
+  const [error, setError] = useState<string>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = () => {
-    // Authentication logic here
-    navigate("/admin/dashboard");
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(`${baseUrl}/api/adminlogin`, credentials);
+
+      if (response.data.status === "true") {
+        localStorage.setItem("adminUsername", credentials.username); // ✅ Save username
+        navigate("/admin-dashboard");
+      } else {
+        setError("Invalid username or password");
+      }
+    } catch (error) {
+      console.error("Login failed", error);
+      setError("An error occurred. Please try again.");
+    }
   };
 
   return (
@@ -38,6 +53,7 @@ export default function AdminLogin() {
             value={credentials.password}
             onChange={handleChange}
           />
+          {error && <p className="text-red-500 text-sm">{error}</p>}
           <Button
             className="w-full bg-blue-600 text-white hover:bg-blue-700"
             onClick={handleLogin}

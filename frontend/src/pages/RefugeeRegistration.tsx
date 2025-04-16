@@ -78,7 +78,7 @@ const RefugeeRegistration = () => {
               </SelectContent>
             </Select>
 
-            <Label>Upload Supporting Documents (Optional)</Label>
+            <Label>Upload Photo</Label>
             <Input type="file" multiple onChange={handleFileChange} />
           </div>
         </CardContent>

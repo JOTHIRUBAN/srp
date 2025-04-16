@@ -18,7 +18,7 @@ function App() {
           <Route path="/refugee/login" element={<RefugeeLogin />} />
           <Route path="/ngo/login" element={<NGOLogin />} />
           <Route path="/ngo/register" element={<NGORegister />} />
-          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/admin-dashboard" element={<RefugeeRegistration />} />
           <Route path="/refugee-register" element={<RefugeeRegistration />} />
           <Route path="/monitor-refugee" element={<MonitorRefugee />} />
           <Route path="/requests" element={<Requests />} />

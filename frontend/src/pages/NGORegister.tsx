@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import axios from "axios";
+
+const baseUrl = "http://localhost:5000"; // your backend URL
 
 export default function NGORegister() {
   const navigate = useNavigate();
@@ -39,10 +42,31 @@ export default function NGORegister() {
     setFormData((prev) => ({ ...prev, file: e.target.files?.[0] || null }));
   };
 
-  const handleRegister = () => {
-    // Registration logic here
-    alert("You will be notified soon by us");
-    navigate("/ngo/login");
+  const handleRegister = async () => {
+    try {
+      const data = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value && key !== "file") data.append(key, value as string);
+      });
+
+      if (formData.file) {
+        data.append("file", formData.file); // File must be appended separately
+      }
+
+      const response = await axios.post(`${baseUrl}/api/ngo-register`, data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (response.data.status === "true") {
+        alert("You will be notified soon by us");
+        navigate("/ngo/login");
+      } else {
+        alert("Registration failed. Try again.");
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      alert("Error occurred during registration.");
+    }
   };
 
   return (
