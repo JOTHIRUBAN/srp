@@ -8,7 +8,7 @@ import RefugeeRegistration from "./pages/RefugeeRegistration";
 import MonitorRefugee from "./pages/MonitorRefugee";
 import Requests from "./pages/Requests";
 import NGORegister from "./pages/NGORegister";
-import QrReader from "./pages/QrReader";
+import RefugeeDetail from "./pages/RefugeeDetail";
 
 function App() {
   return (
@@ -23,8 +23,7 @@ function App() {
           <Route path="/refugee-register" element={<RefugeeRegistration />} />
           <Route path="/monitor-refugee" element={<MonitorRefugee />} />
           <Route path="/requests" element={<Requests />} />
-          <Route path="/qr/:id" element={<QrReader />} />
-
+          <Route path="/refugee/:id" element={<RefugeeDetail />} />
         </Routes>
       </Router>
   );

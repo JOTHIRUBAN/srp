@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import Navbar from "@/components/Navbar";
@@ -8,17 +9,18 @@ interface Refugee {
   nationality: string;
   dob: string;
   biometricSignature: string;
-  suspectStatus: string;
+  isSuspect: boolean; // Updated to boolean
 }
 
 const MonitorRefugee = () => {
   const [refugees, setRefugees] = useState<Refugee[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const fetchRefugees = async () => {
       try {
-        const res = await fetch("http://localhost:5000/refugees");
+        const res = await fetch("http://localhost:3000/refugees");
         const data = await res.json();
         setRefugees(data);
       } catch (error) {
@@ -30,6 +32,10 @@ const MonitorRefugee = () => {
 
     fetchRefugees();
   }, []);
+
+  const handleCardClick = (refugeeId: string) => {
+    navigate(`/refugee/${refugeeId}`); // Navigate to the refugee detail page
+  };
 
   return (
     <>
@@ -49,7 +55,11 @@ const MonitorRefugee = () => {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {refugees.map((refugee, index) => (
-                <Card key={index} className="bg-white shadow-xl rounded-2xl p-4">
+                <Card
+                  key={index}
+                  className="bg-white shadow-xl rounded-2xl p-4 cursor-pointer hover:shadow-2xl transition-shadow"
+                  onClick={() => handleCardClick(refugee.id)} // Pass unique identifier
+                >
                   <CardContent className="flex flex-col gap-2">
                     <p className="text-lg font-semibold text-gray-800">
                       👤 Name: <span className="font-normal">{refugee.name}</span>
@@ -57,13 +67,17 @@ const MonitorRefugee = () => {
                     <p className="text-gray-700">
                       🌍 Nationality: {refugee.nationality}
                     </p>
-                    <p className="text-gray-700">🎂 DOB: {refugee.dob}</p>
+                    <p className="text-gray-700">🎂 DOB: {refugee.dateOfBirth}</p>
                     <p className="text-gray-700">
                       🔐 Biometric Signature:{" "}
                       <span className="break-words">{refugee.biometricSignature}</span>
                     </p>
-                    <p className={`font-semibold ${refugee.suspectStatus === "Yes" ? "text-red-600" : "text-green-600"}`}>
-                      ⚠️ Suspect Status: {refugee.suspectStatus}
+                    <p
+                      className={`font-semibold ${
+                        refugee.isSuspect ? "text-red-600" : "text-green-600"
+                      }`}
+                    >
+                      ⚠️ Suspect Status: {refugee.isSuspect ? "Yes" : "No"}
                     </p>
                   </CardContent>
                 </Card>
