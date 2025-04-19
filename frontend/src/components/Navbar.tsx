@@ -20,7 +20,7 @@ function Navbar() {
           Monitor
         </Button>
         <Button onClick={() => navigate("/requests")}>
-          Reuqests
+          Requests
         </Button>
       </div>
     </div>

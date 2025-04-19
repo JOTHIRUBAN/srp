@@ -14,7 +14,7 @@ export default function RefugeeLogin() {
 
   const handleLogin = () => {
     // Authentication logic here
-    navigate("/refugee/dashboard");
+    navigate(`/refugee/${credentials.id}`);
   };
 
   return (

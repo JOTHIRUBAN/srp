@@ -9,6 +9,7 @@ import MonitorRefugee from "./pages/MonitorRefugee";
 import Requests from "./pages/Requests";
 import NGORegister from "./pages/NGORegister";
 import RefugeeDetail from "./pages/RefugeeDetail";
+import QrReader from "./pages/QrReader";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/monitor-refugee" element={<MonitorRefugee />} />
           <Route path="/requests" element={<Requests />} />
           <Route path="/refugee/:id" element={<RefugeeDetail />} />
+          <Route path="/qr/:id" element={<QrReader />} />
         </Routes>
       </Router>
   );

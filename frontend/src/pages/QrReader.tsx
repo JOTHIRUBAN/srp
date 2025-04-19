@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import imageCompression from "browser-image-compression"; // Import the library
 import { Button } from "@/components/ui/button"; // Assuming Button component is from your UI library
 import { Card, CardContent } from "@/components/ui/card"; // Assuming Card component is from your UI library
 
@@ -24,20 +25,39 @@ const QrReader: React.FC = () => {
   const handleUpload = async () => {
     if (!selectedFile) return;
 
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-
     try {
       setLoading(true);
-      const response = await axios.post(`http://localhost:3000/verify/${id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+
+      // Compress the image
+      const options = {
+        maxSizeMB: 1, // Maximum size in MB
+        maxWidthOrHeight: 800, // Resize to 800x800
+        useWebWorker: true, // Use web workers for better performance
+      };
+      const compressedFile = await imageCompression(selectedFile, options);
+
+      // Convert the compressed file to a base64 string
+      const base64Image = await imageCompression.getDataUrlFromFile(compressedFile);
+
+      // Send the verification request
+      const response = await axios.post(`http://localhost:3000/verify/${id}`, {
+        image: base64Image,
       });
 
-      setResponseData(response.data);
+      const data = response.data;
+
+      // Handle response based on isSuspect or isMatch
+      if (data.isSuspect) {
+        alert("⚠️ This individual is marked as a suspect!");
+      } else if (data.match) {
+        alert("✅ Verification successful!");
+      } else {
+        alert("❌ Verification failed. No match found.");
+      }
+
+      setResponseData(data);
     } catch (error) {
-      setResponseData({ error: "Something went wrong!" });
+      alert("❌ Wrong User");
     } finally {
       setLoading(false);
     }
